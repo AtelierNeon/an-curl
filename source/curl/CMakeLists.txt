@@ -184,7 +184,7 @@ option(CURL_DISABLE_HTTP_AUTH "disables all HTTP authentication methods" OFF)
 mark_as_advanced(CURL_DISABLE_HTTP_AUTH)
 option(CURL_DISABLE_IMAP "disables IMAP" OFF)
 mark_as_advanced(CURL_DISABLE_IMAP)
-option(CURL_DISABLE_LDAP "disables LDAP" OFF)
+option(CURL_DISABLE_LDAP "disables LDAP" ON)
 mark_as_advanced(CURL_DISABLE_LDAP)
 option(CURL_DISABLE_LDAPS "disables LDAPS" OFF)
 mark_as_advanced(CURL_DISABLE_LDAPS)
@@ -360,6 +360,7 @@ endif()
 # TODO support GnuTLS
 option(CURL_ENABLE_SSL "Enable SSL support" ON)
 option(CURL_WITH_SHARED_ZLIB "Build CURL with shared version of Zlib." OFF)
+option(CURL_WITH_SIBLING_SSL "Build CURL with sibling OpenSSL." OFF)
 option(CURL_WITH_SIBLING_ZLIB "Build CURL with sibling Zlib." OFF)
 
 if(APPLE)
@@ -426,19 +427,37 @@ if(use_core_foundation)
   list(APPEND CURL_LIBS "-framework CoreFoundation")
 endif()
 
-if(CURL_USE_OPENSSL)
-  find_package(OpenSSL REQUIRED)
-  set(SSL_ENABLED ON)
-  set(USE_OPENSSL ON)
-
-  # Depend on OpenSSL via imported targets if supported by the running
-  # version of CMake.  This allows our dependents to get our dependencies
-  # transitively.
-  if(NOT CMAKE_VERSION VERSION_LESS 3.4)
-    list(APPEND CURL_LIBS OpenSSL::SSL OpenSSL::Crypto)
-  else()
+if(CURL_USE_OPENSSL OR CURL_WITH_SIBLING_SSL)
+  if(CURL_WITH_SIBLING_SSL)
+    message(STATUS "Use sibling OpenSSL for ${PROJECT_NAME}.")
+    set(OPENSSL_FOUND ON)
+    set(OPENSSL_ROOT_DIR "${PROJECT_SOURCE_DIR}/../openssl/")
+    set(OPENSSL_INCLUDE_DIRS
+      "${PROJECT_SOURCE_DIR}/../openssl/include/"
+      "${PROJECT_BINARY_DIR}/../openssl/include/")
+    set(OPENSSL_CRYPTO_LIBRARY crypto)
+    set(OPENSSL_SSL_LIBRARY ssl)
+    set(OPENSSL_LIBRARIES
+      ${OPENSSL_CRYPTO_LIBRARY}
+      ${OPENSSL_SSL_LIBRARY})
+    set(SSL_ENABLED ON)
+    set(USE_OPENSSL ON)
     list(APPEND CURL_LIBS ${OPENSSL_LIBRARIES})
-    include_directories(${OPENSSL_INCLUDE_DIR})
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+  else()
+    find_package(OpenSSL REQUIRED)
+    set(SSL_ENABLED ON)
+    set(USE_OPENSSL ON)
+
+    # Depend on OpenSSL via imported targets if supported by the running
+    # version of CMake.  This allows our dependents to get our dependencies
+    # transitively.
+    if(NOT CMAKE_VERSION VERSION_LESS 3.4)
+      list(APPEND CURL_LIBS OpenSSL::SSL OpenSSL::Crypto)
+    else()
+      list(APPEND CURL_LIBS ${OPENSSL_LIBRARIES})
+      include_directories(${OPENSSL_INCLUDE_DIR})
+    endif()
   endif()
 
   if(WIN32)

@@ -36,7 +36,9 @@ $ProjectWithStaticVcrt = if ($Env:MY_PROJECT_WITH_STATIC_VCRT) {$Env:MY_PROJECT_
 $ProjectWithWorkaroundArm64rt = if ($Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT) {$Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT} else {'OFF'}
 $ProjectWithWorkaroundOptGy = if ($Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY) {$Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY} else {'OFF'}
 $ProjectWithWorkaroundSpectre = if ($Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE) {$Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE} else {'OFF'}
-$ProjectCurlWithSibingZlib = if ($Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB} else {'OFF'}
+$ProjectCurlWithSharedZlib = if ($Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB} else {'OFF'}
+$ProjectCurlWithSiblingSsl = if ($Env:MY_PROJECT_CURL_WITH_SIBLING_SSL) {$Env:MY_PROJECT_CURL_WITH_SIBLING_SSL} else {'OFF'}
+$ProjectCurlWithSiblingZlib = if ($Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB} else {'OFF'}
 $ProjectOpenSslWithSharedLibraries = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectOpenSslWithSharedZlib = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB} else {'OFF'}
 $ProjectOpenSslWithZlib = if ($Env:MY_PROJECT_OPENSSL_WITH_ZLIB) {$Env:MY_PROJECT_OPENSSL_WITH_ZLIB} else {'OFF'}
@@ -49,8 +51,14 @@ $MyCmakeCommonArgumentList = @(
         "-T $ProjectToolset",
         "-DMY_REVISION=$ProjectRevision"
 )
-if ('ON'.Equals($ProjectCurlWithSibingZlib)) {
-    $MyCmakeCommonArgumentList += "-DCURL_WITH_SIBLING_ZLIB=$ProjectCurlWithSibingZlib"
+if ('ON'.Equals($ProjectCurlWithSharedZlib)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_ZLIB=$ProjectCurlWithSharedZlib"
+}
+if ('ON'.Equals($ProjectCurlWithSiblingSsl)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_SIBLING_SSL=$ProjectCurlWithSiblingSsl"
+}
+if ('ON'.Equals($ProjectCurlWithSiblingZlib)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_SIBLING_ZLIB=$ProjectCurlWithSiblingZlib"
 }
 if ('ON'.Equals($ProjectOpenSslWithSharedLibraries)) {
     $MyCmakeCommonArgumentList += "-DOPENSSL_WITH_SHARED_LIBRARIES=$ProjectOpenSslWithSharedLibraries"

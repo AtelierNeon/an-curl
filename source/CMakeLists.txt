@@ -21,5 +21,6 @@ if (WIN32)
 endif (WIN32)
 
 ## Process sub-components
+add_subdirectory (curl)
 add_subdirectory (openssl)
 add_subdirectory (zlib)

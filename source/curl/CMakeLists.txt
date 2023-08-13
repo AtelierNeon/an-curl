@@ -155,7 +155,7 @@ endif()
 
 include(CurlSymbolHiding)
 
-option(CURL_ENABLE_EXPORT_TARGET "to enable cmake export target" ON)
+option(CURL_ENABLE_EXPORT_TARGET "to enable cmake export target" OFF)
 mark_as_advanced(CURL_ENABLE_EXPORT_TARGET)
 
 option(CURL_DISABLE_ALTSVC "disables alt-svc support" OFF)
@@ -359,6 +359,8 @@ endif()
 # check SSL libraries
 # TODO support GnuTLS
 option(CURL_ENABLE_SSL "Enable SSL support" ON)
+option(CURL_WITH_SHARED_ZLIB "Build CURL with shared version of Zlib." OFF)
+option(CURL_WITH_SIBLING_ZLIB "Build CURL with sibling Zlib." OFF)
 
 if(APPLE)
   cmake_dependent_option(CURL_USE_SECTRANSP "enable Apple OS native SSL/TLS" OFF CURL_ENABLE_SSL OFF)
@@ -502,21 +504,45 @@ endif()
 
 set(HAVE_LIBZ OFF)
 set(USE_ZLIB OFF)
-optional_dependency(ZLIB)
-if(ZLIB_FOUND)
+if(CURL_WITH_SIBLING_ZLIB)
   set(HAVE_LIBZ ON)
   set(USE_ZLIB ON)
 
-  # Depend on ZLIB via imported targets if supported by the running
-  # version of CMake.  This allows our dependents to get our dependencies
-  # transitively.
-  if(NOT CMAKE_VERSION VERSION_LESS 3.4)
-    list(APPEND CURL_LIBS ZLIB::ZLIB)
+  message(STATUS "Use sibling zlib for ${PROJECT_NAME}.")
+  set(ZLIB_FOUND ON)
+  set(ZLIB_INCLUDE_DIRS
+    "${PROJECT_SOURCE_DIR}/../zlib/"
+    "${PROJECT_BINARY_DIR}/../zlib/")
+  if (CURL_WITH_SHARED_ZLIB)
+    set(ZLIB_LIBRARIES zlib)
   else()
-    list(APPEND CURL_LIBS ${ZLIB_LIBRARIES})
-    include_directories(${ZLIB_INCLUDE_DIRS})
+    set(ZLIB_LIBRARIES zlibstatic)
   endif()
+  list(APPEND CURL_LIBS ${ZLIB_LIBRARIES})
+  include_directories(${ZLIB_INCLUDE_DIRS})
   list(APPEND CMAKE_REQUIRED_INCLUDES ${ZLIB_INCLUDE_DIRS})
+else()
+  if (CURL_WITH_SHARED_ZLIB)
+    set(ZLIB_USE_STATIC_LIBS OFF)
+  else()
+    set(ZLIB_USE_STATIC_LIBS ON)
+  endif()
+  optional_dependency(ZLIB)
+  if(ZLIB_FOUND)
+    set(HAVE_LIBZ ON)
+    set(USE_ZLIB ON)
+
+    # Depend on ZLIB via imported targets if supported by the running
+    # version of CMake.  This allows our dependents to get our dependencies
+    # transitively.
+    if(NOT CMAKE_VERSION VERSION_LESS 3.4)
+      list(APPEND CURL_LIBS ZLIB::ZLIB)
+    else()
+      list(APPEND CURL_LIBS ${ZLIB_LIBRARIES})
+      include_directories(${ZLIB_INCLUDE_DIRS})
+    endif()
+    list(APPEND CMAKE_REQUIRED_INCLUDES ${ZLIB_INCLUDE_DIRS})
+  endif()
 endif()
 
 option(CURL_BROTLI "Set to ON to enable building curl with brotli support." OFF)

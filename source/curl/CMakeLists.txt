@@ -334,7 +334,7 @@ if(ENABLE_THREADED_RESOLVER)
 endif()
 
 # Check for all needed libraries
-check_library_exists_concat("socket" connect      HAVE_LIBSOCKET)
+#check_library_exists_concat("socket" connect      HAVE_LIBSOCKET)
 
 check_function_exists(gethostname HAVE_GETHOSTNAME)
 
@@ -805,7 +805,7 @@ if(NOT CURL_DISABLE_LDAPS)
 endif()
 
 # Check for idn2
-option(USE_LIBIDN2 "Use libidn2 for IDN support" ON)
+option(USE_LIBIDN2 "Use libidn2 for IDN support" OFF)
 if(USE_LIBIDN2)
   check_library_exists_concat("idn2" idn2_lookup_ul HAVE_LIBIDN2)
 else()

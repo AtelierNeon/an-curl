@@ -117,6 +117,8 @@ if(WIN32)
       add_compile_options(-municode)
     endif()
   endif()
+else()
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 option(CURL_LTO "Turn on compiler Link Time Optimizations" OFF)
 

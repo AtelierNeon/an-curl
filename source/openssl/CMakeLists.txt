@@ -138,6 +138,8 @@ endif()
 if( WIN32 )
   set( CMAKE_SHARED_LIBRARY_PREFIX "lib" )
   set( CMAKE_STATIC_LIBRARY_PREFIX "lib" )
+else()
+  set (CMAKE_POSITION_INDEPENDENT_CODE ON )
 endif()
 
 if( WIN32 AND NOT CYGWIN )

@@ -361,11 +361,15 @@ endif()
 # check SSL libraries
 # TODO support GnuTLS
 option(CURL_ENABLE_SSL "Enable SSL support" ON)
+option(CURL_WITH_DISABLED_APPS "Build CURL with disabled apps." OFF)
 option(CURL_WITH_SHARED_LIBRARIES "Build shared version of the libcurl library." OFF )
 option(CURL_WITH_SHARED_ZLIB "Build CURL with shared version of Zlib." OFF)
 option(CURL_WITH_SIBLING_SSL "Build CURL with sibling OpenSSL." OFF)
 option(CURL_WITH_SIBLING_ZLIB "Build CURL with sibling Zlib." OFF)
 
+if(CURL_WITH_DISABLED_APPS)
+  set(BUILD_CURL_EXE OFF)
+endif()
 if(CURL_WITH_SHARED_LIBRARIES)
   set(BUILD_SHARED_LIBS ON)
 endif()

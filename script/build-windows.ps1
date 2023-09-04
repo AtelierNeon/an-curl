@@ -15,9 +15,10 @@ $CmakeToolsetToGeneratorMap = @{
         'v142' = 'Visual Studio 16 2019'
         'v143' = 'Visual Studio 17 2022'
 }
-$SourceFolder = 'source'
-$TempRootFolder = 'temp'
-$TempBuildFolder = Join-Path -Path $TempRootFolder -ChildPath 'b'
+$ProjectFolder = Join-Path -Path $PSScriptRoot -ChildPath '..'
+$SourceFolder = $ProjectFolder
+$TempRootFolder = Join-Path -Path $ProjectFolder -ChildPath 'build'
+$TempBuildFolder = Join-Path -Path $TempRootFolder -ChildPath 't'
 $TempInstallFolder = Join-Path -Path $TempRootFolder -ChildPath 'i'
 
 ##
@@ -38,10 +39,10 @@ $ProjectWithWorkaroundArm64rt = if ($Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT) {$E
 $ProjectWithWorkaroundOptGy = if ($Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY) {$Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY} else {'OFF'}
 $ProjectWithWorkaroundSpectre = if ($Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE) {$Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE} else {'OFF'}
 $ProjectCurlWithDisabledApps = if ($Env:MY_PROJECT_CURL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_CURL_WITH_DISABLED_APPS} else {'OFF'}
+$ProjectCurlWithOpenSsl = if ($Env:MY_PROJECT_CURL_WITH_OPENSSL) {$Env:MY_PROJECT_CURL_WITH_OPENSSL} else {'OFF'}
 $ProjectCurlWithSharedLibraries = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectCurlWithSharedZlib = if ($Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB} else {'OFF'}
-$ProjectCurlWithSiblingSsl = if ($Env:MY_PROJECT_CURL_WITH_SIBLING_SSL) {$Env:MY_PROJECT_CURL_WITH_SIBLING_SSL} else {'OFF'}
-$ProjectCurlWithSiblingZlib = if ($Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SIBLING_ZLIB} else {'OFF'}
+$ProjectCurlWithZlib = if ($Env:MY_PROJECT_CURL_WITH_ZLIB) {$Env:MY_PROJECT_CURL_WITH_ZLIB} else {'OFF'}
 $ProjectOpenSslWithDisabledApps = if ($Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS} else {'OFF'}
 $ProjectOpenSslWithSharedLibraries = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectOpenSslWithSharedZlib = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB} else {'OFF'}
@@ -56,6 +57,9 @@ $MyCmakeCommonArgumentList = @(
         "-T $ProjectToolset",
         "-DMY_REVISION=$ProjectRevision"
 )
+if ('ON'.Equals($ProjectCurlWithOpenSsl)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_OPENSSL=$ProjectCurlWithOpenSsl"
+}
 if ('ON'.Equals($ProjectCurlWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_DISABLED_APPS=$ProjectCurlWithDisabledApps"
 }
@@ -65,11 +69,8 @@ if ('ON'.Equals($ProjectCurlWithSharedLibraries)) {
 if ('ON'.Equals($ProjectCurlWithSharedZlib)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_ZLIB=$ProjectCurlWithSharedZlib"
 }
-if ('ON'.Equals($ProjectCurlWithSiblingSsl)) {
-    $MyCmakeCommonArgumentList += "-DCURL_WITH_SIBLING_SSL=$ProjectCurlWithSiblingSsl"
-}
-if ('ON'.Equals($ProjectCurlWithSiblingZlib)) {
-    $MyCmakeCommonArgumentList += "-DCURL_WITH_SIBLING_ZLIB=$ProjectCurlWithSiblingZlib"
+if ('ON'.Equals($ProjectCurlWithZlib)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_ZLIB=$ProjectCurlWithZlib"
 }
 if ('ON'.Equals($ProjectOpenSslWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DOPENSSL_WITH_DISABLED_APPS=$ProjectOpenSslWithDisabledApps"
@@ -155,10 +156,10 @@ Write-Information "[PowerShell] Project information: CMake generator: `"$MyCmake
 Write-Information "[PowerShell] Project information: CMake toolset: `"$ProjectToolset`""
 Write-Information "[PowerShell] Project information: CMake platform to build: $MyCmakePlatformToBuildListString"
 Write-Information "[PowerShell] Project information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
+Write-Information "[PowerShell] Project information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
 Write-Information "[PowerShell] Project information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"
 Write-Information "[PowerShell] Project information: CURL with shared Zlib: $ProjectCurlWithSharedZlib"
-Write-Information "[PowerShell] Project information: CURL with sibling SSL: $ProjectCurlWithSiblingSsl"
-Write-Information "[PowerShell] Project information: CURL with sibling Zlib: $ProjectCurlWithSiblingZlib"
+Write-Information "[PowerShell] Project information: CURL with Zlib: $ProjectCurlWithZlib"
 Write-Information "[PowerShell] Project information: OpenSSL with disabled apps: $ProjectOpenSslWithDisabledApps"
 Write-Information "[PowerShell] Project information: OpenSSL with shared libraries: $ProjectOpenSslWithSharedLibraries"
 Write-Information "[PowerShell] Project information: OpenSSL with shared Zlib: $ProjectOpenSslWithSharedZlib"

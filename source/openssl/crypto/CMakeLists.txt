@@ -318,12 +318,8 @@ else()
   endif()
 endif()
 
-if( OPENSSL_WITH_ZLIB )
-  if( OPENSSL_WITH_SHARED_ZLIB )
-    target_link_libraries( crypto zlib )
-  else()
-    target_link_libraries( crypto zlibstatic )
-  endif()
+if( OPENSSL_WITH_ZLIB AND ZLIB_FOUND )
+  target_link_libraries( crypto ${ZLIB_LIBRARIES} )
 endif()
 
 set_target_properties( crypto PROPERTIES

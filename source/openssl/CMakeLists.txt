@@ -27,7 +27,7 @@
 set( CMAKE_LEGACY_CYGWIN_WIN32 0 )
 project( openssl
   DESCRIPTION "OpenSSL" )
-cmake_minimum_required( VERSION 3.1.0 )
+cmake_minimum_required( VERSION 3.1.0...3.15.0 )
 
 option( OPENSSL_WITH_DISABLED_APPS "Build OpenSSL with disabled apps." OFF)
 option( OPENSSL_WITH_SHARED_LIBRARIES "Build shared version of the libcrypto/libssl libraries." OFF )
@@ -35,9 +35,6 @@ option( OPENSSL_WITH_SHARED_ZLIB "Build OpenSSL with shared version of Zlib." OF
 option( OPENSSL_WITH_ZLIB "Build OpenSSL with Zlib." OFF )
 
 set( BUILD_SHARED_LIBS ${OPENSSL_WITH_SHARED_LIBRARIES} )
-if( OPENSSL_WITH_SHARED_ZLIB )
-  set( OPENSSL_WITH_ZLIB ON )
-endif()
 
 set( CMAKE_DISABLE_SOURCE_CHANGES ON )
 set( CMAKE_DISABLE_IN_SOURCE_BUILD ON )
@@ -117,6 +114,17 @@ set( LIB_SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR} )
 add_definitions( -DOPENSSL_NO_ASM )
 add_definitions( -DOPENSSL_NO_STATIC_ENGINE )
 
+if( OPENSSL_WITH_SHARED_ZLIB )
+  set( OPENSSL_WITH_ZLIB ON )
+endif()
+if( OPENSSL_WITH_ZLIB AND NOT OPENSSL_WITH_SHARED_ZLIB )
+  set(ZLIB_USE_STATIC_LIBS ON)
+endif()
+find_package( SiblingZLIB )
+if( NOT ZLIB_FOUND )
+  find_package( ZLIB )
+endif()
+
 if( MSVC )
   include( MSVCRuntime )
   configure_msvc_runtime()
@@ -187,7 +195,7 @@ set( CONF "
 #define OPENSSL_NO_RFC3779
 #define OPENSSL_NO_EC_NISTP_64_GCC_128
 ${CONF}" )
-if( OPENSSL_WITH_ZLIB )
+if( OPENSSL_WITH_ZLIB AND ZLIB_FOUND )
 set( CONF "
 #define ZLIB
 ${CONF}" )

@@ -1,0 +1,12 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/build/vscode",
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.configureSettings": {
+        "MY_PROJECT_CURL_WITH_DISABLED_APPS": "OFF",
+        "MY_PROJECT_CURL_WITH_OPENSSL": "ON",
+        "MY_PROJECT_CURL_WITH_ZLIB": "ON",
+        "OPENSSL_WITH_DISABLED_APPS": "ON",
+        "OPENSSL_WITH_ZLIB": "ON",
+        "ZLIB_WITH_DISABLED_TEST_APPS": "ON"
+    }
+}

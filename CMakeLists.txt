@@ -11,6 +11,8 @@ project (main)
 message (STATUS "My project revision: ${MY_REVISION}")
 
 ## Project options
+option (BUILD_WITH_OPENSSL_1_1_1_PREFERRED "Build library with preferred OpenSSL 1.1.1." OFF)
+option (BUILD_WITH_OPENSSL_3_0_PREFERRED "Build library with preferred OpenSSL 3.0." OFF)
 option (BUILD_WITH_SHARED_VCRT "Build library with shared vc runtime library." OFF)
 option (BUILD_WITH_STATIC_VCRT "Build library without shared vc runtime library." OFF)
 option (BUILD_WITH_WORKAROUND_ARM64RT "Build library with workaround arm64rt.lib library" OFF)

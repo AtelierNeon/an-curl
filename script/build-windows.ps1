@@ -36,6 +36,8 @@ $ProjectShouldDisableArm64ecBuild = if ($Env:MY_PROJECT_SHOULD_DISABLE_ARM64EC_B
 $ProjectShouldDisableX86Build = if ($Env:MY_PROJECT_SHOULD_DISABLE_X86_BUILD) {$Env:MY_PROJECT_SHOULD_DISABLE_X86_BUILD} else {'OFF'}
 $ProjectToolset = if ($Env:MY_PROJECT_CMAKE_TOOLSET) {$Env:MY_PROJECT_CMAKE_TOOLSET} else {'v142'}
 $ProjectReleaseType = if ($Env:MY_PROJECT_RELEASE_TYPE) {$Env:MY_PROJECT_RELEASE_TYPE} else {'Debug'}
+$ProjectWithOpenSSL111Preferred = if ($Env:MY_PROJECT_WITH_OPENSSL_1_1_1_PREFERRED) {$Env:MY_PROJECT_WITH_OPENSSL_1_1_1_PREFERRED} else {'OFF'}
+$ProjectWithOpenSSL30Preferred = if ($Env:MY_PROJECT_WITH_OPENSSL_3_0_PREFERRED) {$Env:MY_PROJECT_WITH_OPENSSL_3_0_PREFERRED} else {'OFF'}
 $ProjectWithSharedVcrt = if ($Env:MY_PROJECT_WITH_SHARED_VCRT) {$Env:MY_PROJECT_WITH_SHARED_VCRT} else {'OFF'}
 $ProjectWithStaticVcrt = if ($Env:MY_PROJECT_WITH_STATIC_VCRT) {$Env:MY_PROJECT_WITH_STATIC_VCRT} else {'ON'}
 $ProjectWithWorkaroundArm64rt = if ($Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT) {$Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT} else {'OFF'}
@@ -96,6 +98,12 @@ if ('ON'.Equals($ProjectOpenSslWithZlib)) {
 }
 if ('ON'.Equals($ProjectZlibWithDisabledTestApps)) {
     $MyCmakeCommonArgumentList += "-DZLIB_WITH_DISABLED_TEST_APPS=$ProjectZlibWithDisabledTestApps"
+}
+if ('ON'.Equals($ProjectWithOpenSSL111Preferred)) {
+    $MyCmakeCommonArgumentList += "-DBUILD_WITH_OPENSSL_1_1_1_PREFERRED=$ProjectWithOpenSSL111Preferred"
+}
+if ('ON'.Equals($ProjectWithOpenSSL30Preferred)) {
+    $MyCmakeCommonArgumentList += "-DBUILD_WITH_OPENSSL_3_0_PREFERRED=$ProjectWithOpenSSL30Preferred"
 }
 if ('ON'.Equals($ProjectWithSharedVcrt)) {
     $MyCmakeCommonArgumentList += "-DBUILD_WITH_SHARED_VCRT=$ProjectWithSharedVcrt"
@@ -165,6 +173,8 @@ Write-Information "[PowerShell] Project information: Disable clean build: $Proje
 Write-Information "[PowerShell] Project information: CMake generator: `"$MyCmakeGenerator`""
 Write-Information "[PowerShell] Project information: CMake toolset: `"$ProjectToolset`""
 Write-Information "[PowerShell] Project information: CMake platform to build: $MyCmakePlatformToBuildListString"
+Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 1.1.1: $ProjectWithOpenSSL111Preferred"
+Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 3.0: $ProjectWithOpenSSL30Preferred"
 Write-Information "[PowerShell] Component information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
 Write-Information "[PowerShell] Component information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
 Write-Information "[PowerShell] Component information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"

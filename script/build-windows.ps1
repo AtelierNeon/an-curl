@@ -24,6 +24,9 @@ $TempInstallFolder = Join-Path -Path $TempRootFolder -ChildPath 'i'
 ##
 ## Project config
 ##
+####
+#### Project level config
+####
 $ProjectRevision = if ($Env:BUILD_NUMBER) {$Env:BUILD_NUMBER} else {'9999'}
 $ProjectShouldDisableCleanBuild = if ($Env:MY_PROJECT_SHOULD_DISABLE_CLEAN_BUILD) {$Env:MY_PROJECT_SHOULD_DISABLE_CLEAN_BUILD} else {'OFF'}
 $ProjectShouldDisable32BitBuild = if ($Env:MY_PROJECT_SHOULD_DISABLE_32BIT_BUILD) {$Env:MY_PROJECT_SHOULD_DISABLE_32BIT_BUILD} else {'OFF'}
@@ -38,11 +41,15 @@ $ProjectWithStaticVcrt = if ($Env:MY_PROJECT_WITH_STATIC_VCRT) {$Env:MY_PROJECT_
 $ProjectWithWorkaroundArm64rt = if ($Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT) {$Env:MY_PROJECT_WITH_WORKAROUND_ARM64RT} else {'OFF'}
 $ProjectWithWorkaroundOptGy = if ($Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY) {$Env:MY_PROJECT_WITH_WORKAROUND_OPT_GY} else {'OFF'}
 $ProjectWithWorkaroundSpectre = if ($Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE) {$Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE} else {'OFF'}
+####
+#### Project component level config
+####
 $ProjectCurlWithDisabledApps = if ($Env:MY_PROJECT_CURL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_CURL_WITH_DISABLED_APPS} else {'OFF'}
 $ProjectCurlWithOpenSsl = if ($Env:MY_PROJECT_CURL_WITH_OPENSSL) {$Env:MY_PROJECT_CURL_WITH_OPENSSL} else {'OFF'}
 $ProjectCurlWithSharedLibraries = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectCurlWithSharedZlib = if ($Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB} else {'OFF'}
 $ProjectCurlWithZlib = if ($Env:MY_PROJECT_CURL_WITH_ZLIB) {$Env:MY_PROJECT_CURL_WITH_ZLIB} else {'OFF'}
+$ProjectOpenSslWithDeprecatedCiphers = if ($Env:MY_PROJECT_OPENSSL_WITH_DEPRECATED_CIPHERS) {$Env:MY_PROJECT_OPENSSL_WITH_DEPRECATED_CIPHERS} else {'OFF'}
 $ProjectOpenSslWithDisabledApps = if ($Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS} else {'OFF'}
 $ProjectOpenSslWithSharedLibraries = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectOpenSslWithSharedZlib = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_ZLIB} else {'OFF'}
@@ -71,6 +78,9 @@ if ('ON'.Equals($ProjectCurlWithSharedZlib)) {
 }
 if ('ON'.Equals($ProjectCurlWithZlib)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_ZLIB=$ProjectCurlWithZlib"
+}
+if ('ON'.Equals($ProjectOpenSslWithDeprecatedCiphers)) {
+    $MyCmakeCommonArgumentList += "-DOPENSSL_WITH_DEPRECATED_CIPHERS=$ProjectOpenSslWithDeprecatedCiphers"
 }
 if ('ON'.Equals($ProjectOpenSslWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DOPENSSL_WITH_DISABLED_APPS=$ProjectOpenSslWithDisabledApps"
@@ -155,16 +165,17 @@ Write-Information "[PowerShell] Project information: Disable clean build: $Proje
 Write-Information "[PowerShell] Project information: CMake generator: `"$MyCmakeGenerator`""
 Write-Information "[PowerShell] Project information: CMake toolset: `"$ProjectToolset`""
 Write-Information "[PowerShell] Project information: CMake platform to build: $MyCmakePlatformToBuildListString"
-Write-Information "[PowerShell] Project information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
-Write-Information "[PowerShell] Project information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
-Write-Information "[PowerShell] Project information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"
-Write-Information "[PowerShell] Project information: CURL with shared Zlib: $ProjectCurlWithSharedZlib"
-Write-Information "[PowerShell] Project information: CURL with Zlib: $ProjectCurlWithZlib"
-Write-Information "[PowerShell] Project information: OpenSSL with disabled apps: $ProjectOpenSslWithDisabledApps"
-Write-Information "[PowerShell] Project information: OpenSSL with shared libraries: $ProjectOpenSslWithSharedLibraries"
-Write-Information "[PowerShell] Project information: OpenSSL with shared Zlib: $ProjectOpenSslWithSharedZlib"
-Write-Information "[PowerShell] Project information: OpenSSL with Zlib: $ProjectOpenSslWithZlib"
-Write-Information "[PowerShell] Project information: Zlib with disabled test apps: $ProjectZlibWithDisabledTestApps"
+Write-Information "[PowerShell] Component information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
+Write-Information "[PowerShell] Component information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
+Write-Information "[PowerShell] Component information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"
+Write-Information "[PowerShell] Component information: CURL with shared Zlib: $ProjectCurlWithSharedZlib"
+Write-Information "[PowerShell] Component information: CURL with Zlib: $ProjectCurlWithZlib"
+Write-Information "[PowerShell] Component information: OpenSSL with deprecated ciphers: $ProjectOpenSslWithDeprecatedCiphers"
+Write-Information "[PowerShell] Component information: OpenSSL with disabled apps: $ProjectOpenSslWithDisabledApps"
+Write-Information "[PowerShell] Component information: OpenSSL with shared libraries: $ProjectOpenSslWithSharedLibraries"
+Write-Information "[PowerShell] Component information: OpenSSL with shared Zlib: $ProjectOpenSslWithSharedZlib"
+Write-Information "[PowerShell] Component information: OpenSSL with Zlib: $ProjectOpenSslWithZlib"
+Write-Information "[PowerShell] Component information: Zlib with disabled test apps: $ProjectZlibWithDisabledTestApps"
 
 
 

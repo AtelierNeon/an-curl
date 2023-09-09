@@ -194,7 +194,9 @@ add_submodule ( kdf hkdf.c kdf_err.c scrypt.c tls1_prf.c )
 
 add_submodule ( lhash lh_stats.c lhash.c )
 
-add_submodule ( md2 md2_dgst.c md2_one.c )
+if( OPENSSL_WITH_DEPRECATED_CIPHERS )
+  add_submodule ( md2 md2_dgst.c md2_one.c )
+endif()
 
 add_submodule ( md4 md4_dgst.c md4_one.c )
 
@@ -229,7 +231,9 @@ add_submodule ( rc2 rc2_cbc.c rc2_ecb.c rc2_skey.c rc2cfb64.c rc2ofb64.c )
 
 add_submodule ( rc4 rc4_enc.c rc4_skey.c )
 
-add_submodule ( rc5 rc5_ecb.c rc5_enc.c rc5_skey.c rc5cfb64.c rc5ofb64.c )
+if( OPENSSL_WITH_DEPRECATED_CIPHERS )
+  add_submodule ( rc5 rc5_ecb.c rc5_enc.c rc5_skey.c rc5cfb64.c rc5ofb64.c )
+endif()
 
 add_submodule ( ripemd rmd_dgst.c rmd_one.c )
 

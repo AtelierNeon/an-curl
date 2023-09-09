@@ -29,7 +29,8 @@ project( openssl
   DESCRIPTION "OpenSSL" )
 cmake_minimum_required( VERSION 3.1.0...3.15.0 )
 
-option( OPENSSL_WITH_DISABLED_APPS "Build OpenSSL with disabled apps." OFF)
+option( OPENSSL_WITH_DEPRECATED_CIPHERS "Build OpenSSL with deprecated ciphers." OFF )
+option( OPENSSL_WITH_DISABLED_APPS "Build OpenSSL with disabled apps." OFF )
 option( OPENSSL_WITH_SHARED_LIBRARIES "Build shared version of the libcrypto/libssl libraries." OFF )
 option( OPENSSL_WITH_SHARED_ZLIB "Build OpenSSL with shared version of Zlib." OFF )
 option( OPENSSL_WITH_ZLIB "Build OpenSSL with Zlib." OFF )
@@ -151,7 +152,7 @@ if( WIN32 )
   set( CMAKE_SHARED_LIBRARY_PREFIX "lib" )
   set( CMAKE_STATIC_LIBRARY_PREFIX "lib" )
 else()
-  set (CMAKE_POSITION_INDEPENDENT_CODE ON )
+  set( CMAKE_POSITION_INDEPENDENT_CODE ON )
 endif()
 
 if( WIN32 AND NOT CYGWIN )
@@ -195,6 +196,14 @@ set( CONF "
 #define OPENSSL_NO_RFC3779
 #define OPENSSL_NO_EC_NISTP_64_GCC_128
 ${CONF}" )
+if( NOT OPENSSL_WITH_DEPRECATED_CIPHERS )
+set( CONF "
+#define OPENSSL_NO_MD2
+#define OPENSSL_NO_RC5
+#define OPENSSL_NO_SSL3
+#define OPENSSL_NO_SSL3_METHOD
+${CONF}" )
+endif()
 if( OPENSSL_WITH_ZLIB AND ZLIB_FOUND )
 set( CONF "
 #define ZLIB

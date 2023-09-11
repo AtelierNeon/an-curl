@@ -66,11 +66,11 @@ $MyCmakeCommonArgumentList = @(
         "-T $ProjectToolset",
         "-DMY_REVISION=$ProjectRevision"
 )
-if ('ON'.Equals($ProjectCurlWithOpenSsl)) {
-    $MyCmakeCommonArgumentList += "-DCURL_WITH_OPENSSL=$ProjectCurlWithOpenSsl"
-}
 if ('ON'.Equals($ProjectCurlWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_DISABLED_APPS=$ProjectCurlWithDisabledApps"
+}
+if ('ON'.Equals($ProjectCurlWithOpenSsl)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_OPENSSL=$ProjectCurlWithOpenSsl"
 }
 if ('ON'.Equals($ProjectCurlWithSharedLibraries)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_LIBRARIES=$ProjectCurlWithSharedLibraries"

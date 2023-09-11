@@ -1,0 +1,17 @@
+if (EXISTS "${PROJECT_SOURCE_DIR}/../libssh2/include/")
+  message (STATUS "Sibling libssh2 found.")
+  set (LIBSSH2_FOUND True)
+  set (LIBSSH2_INCLUDE_DIRS
+    "${PROJECT_SOURCE_DIR}/../libssh2/include/"
+    "${PROJECT_BINARY_DIR}/../libssh2/include/")
+  set (LIBSSH2_LIBRARY libssh2_shared)
+  if (LIBSSH2_USE_STATIC_LIBS)
+    message (STATUS "Using static sibling libssh2.")
+    set (LIBSSH2_LIBRARY libssh2_static)
+  else ()
+    message (STATUS "Using shared sibling libssh2.")
+  endif ()
+  set (LIBSSH2_LIBRARIES ${LIBSSH2_LIBRARY})
+else ()
+  message (STATUS "Sibling libssh2 NOT found.")
+endif ()

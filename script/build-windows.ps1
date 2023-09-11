@@ -47,10 +47,16 @@ $ProjectWithWorkaroundSpectre = if ($Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE) {$E
 #### Project component level config
 ####
 $ProjectCurlWithDisabledApps = if ($Env:MY_PROJECT_CURL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_CURL_WITH_DISABLED_APPS} else {'OFF'}
+$ProjectCurlWithLibSsh2 = if ($Env:MY_PROJECT_CURL_WITH_LIBSSH2) {$Env:MY_PROJECT_CURL_WITH_LIBSSH2} else {'OFF'}
 $ProjectCurlWithOpenSsl = if ($Env:MY_PROJECT_CURL_WITH_OPENSSL) {$Env:MY_PROJECT_CURL_WITH_OPENSSL} else {'OFF'}
 $ProjectCurlWithSharedLibraries = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES} else {'OFF'}
+$ProjectCurlWithSharedLibSsh2 = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBSSH2) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBSSH2} else {'OFF'}
 $ProjectCurlWithSharedZlib = if ($Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB} else {'OFF'}
 $ProjectCurlWithZlib = if ($Env:MY_PROJECT_CURL_WITH_ZLIB) {$Env:MY_PROJECT_CURL_WITH_ZLIB} else {'OFF'}
+$ProjectLibSsh2WithDisabledTestApps = if ($Env:MY_PROJECT_LIBSSH2_WITH_DISABLED_TEST_APPS) {$Env:MY_PROJECT_LIBSSH2_WITH_DISABLED_TEST_APPS} else {'OFF'}
+$ProjectLibSsh2WithSharedLibraries = if ($Env:MY_PROJECT_LIBSSH2_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_LIBSSH2_WITH_SHARED_LIBRARIES} else {'OFF'}
+$ProjectLibSsh2WithSharedZlib = if ($Env:MY_PROJECT_LIBSSH2_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_LIBSSH2_WITH_SHARED_ZLIB} else {'OFF'}
+$ProjectLibSsh2WithZlib = if ($Env:MY_PROJECT_LIBSSH2_WITH_ZLIB) {$Env:MY_PROJECT_LIBSSH2_WITH_ZLIB} else {'OFF'}
 $ProjectOpenSslWithDeprecatedCiphers = if ($Env:MY_PROJECT_OPENSSL_WITH_DEPRECATED_CIPHERS) {$Env:MY_PROJECT_OPENSSL_WITH_DEPRECATED_CIPHERS} else {'OFF'}
 $ProjectOpenSslWithDisabledApps = if ($Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_OPENSSL_WITH_DISABLED_APPS} else {'OFF'}
 $ProjectOpenSslWithSharedLibraries = if ($Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_OPENSSL_WITH_SHARED_LIBRARIES} else {'OFF'}
@@ -69,17 +75,35 @@ $MyCmakeCommonArgumentList = @(
 if ('ON'.Equals($ProjectCurlWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_DISABLED_APPS=$ProjectCurlWithDisabledApps"
 }
+if ('ON'.Equals($ProjectCurlWithLibSsh2)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_LIBSSH2=$ProjectCurlWithLibSsh2"
+}
 if ('ON'.Equals($ProjectCurlWithOpenSsl)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_OPENSSL=$ProjectCurlWithOpenSsl"
 }
 if ('ON'.Equals($ProjectCurlWithSharedLibraries)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_LIBRARIES=$ProjectCurlWithSharedLibraries"
 }
+if ('ON'.Equals($ProjectCurlWithSharedLibSsh2)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_LIBSSH2=$ProjectCurlWithSharedLibSsh2"
+}
 if ('ON'.Equals($ProjectCurlWithSharedZlib)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_ZLIB=$ProjectCurlWithSharedZlib"
 }
 if ('ON'.Equals($ProjectCurlWithZlib)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_ZLIB=$ProjectCurlWithZlib"
+}
+if ('ON'.Equals($ProjectLibSsh2WithDisabledTestApps)) {
+    $MyCmakeCommonArgumentList += "-DLIBSSH2_WITH_DISABLED_TEST_APPS=$ProjectLibSsh2WithDisabledTestApps"
+}
+if ('ON'.Equals($ProjectLibSsh2WithSharedLibraries)) {
+    $MyCmakeCommonArgumentList += "-DLIBSSH2_WITH_SHARED_LIBRARIES=$ProjectLibSsh2WithSharedLibraries"
+}
+if ('ON'.Equals($ProjectLibSsh2WithSharedZlib)) {
+    $MyCmakeCommonArgumentList += "-DLIBSSH2_WITH_SHARED_ZLIB=$ProjectLibSsh2WithSharedZlib"
+}
+if ('ON'.Equals($ProjectLibSsh2WithZlib)) {
+    $MyCmakeCommonArgumentList += "-DLIBSSH2_WITH_ZLIB=$ProjectLibSsh2WithZlib"
 }
 if ('ON'.Equals($ProjectOpenSslWithDeprecatedCiphers)) {
     $MyCmakeCommonArgumentList += "-DOPENSSL_WITH_DEPRECATED_CIPHERS=$ProjectOpenSslWithDeprecatedCiphers"
@@ -176,10 +200,16 @@ Write-Information "[PowerShell] Project information: CMake platform to build: $M
 Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 1.1.1: $ProjectWithOpenSSL111Preferred"
 Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 3.0: $ProjectWithOpenSSL30Preferred"
 Write-Information "[PowerShell] Component information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
+Write-Information "[PowerShell] Component information: CURL wuth libssh2: $ProjectCurlWithLibSsh2"
 Write-Information "[PowerShell] Component information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
 Write-Information "[PowerShell] Component information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"
+Write-Information "[PowerShell] Component information: CURL with shared libssh2: $ProjectCurlWithSharedLibSsh2"
 Write-Information "[PowerShell] Component information: CURL with shared Zlib: $ProjectCurlWithSharedZlib"
 Write-Information "[PowerShell] Component information: CURL with Zlib: $ProjectCurlWithZlib"
+Write-Information "[PowerShell] Component information: libssh2 with disabled test apps: $ProjectLibSsh2WithDisabledTestApps"
+Write-Information "[PowerShell] Component information: libssh2 with shared libraries: $ProjectLibSsh2WithSharedLibraries"
+Write-Information "[PowerShell] Component information: libssh2 with shared Zlib: $ProjectLibSsh2WithSharedZlib"
+Write-Information "[PowerShell] Component information: libssh2 with Zlib: $ProjectLibSsh2WithZlib"
 Write-Information "[PowerShell] Component information: OpenSSL with deprecated ciphers: $ProjectOpenSslWithDeprecatedCiphers"
 Write-Information "[PowerShell] Component information: OpenSSL with disabled apps: $ProjectOpenSslWithDisabledApps"
 Write-Information "[PowerShell] Component information: OpenSSL with shared libraries: $ProjectOpenSslWithSharedLibraries"

@@ -46,9 +46,13 @@ $ProjectWithWorkaroundSpectre = if ($Env:MY_PROJECT_WITH_WORKAROUND_SPECTRE) {$E
 ####
 #### Project component level config
 ####
+$ProjectCaresWithDisabledApps = if ($Env:MY_PROJECT_CARES_WITH_DISABLED_APPS) {$Env:MY_PROJECT_CARES_WITH_DISABLED_APPS} else {'OFF'}
+$ProjectCaresWithDisabledTestApps = if ($Env:MY_PROJECT_CARES_WITH_DISABLED_TEST_APPS) {$Env:MY_PROJECT_CARES_WITH_DISABLED_TEST_APPS} else {'OFF'}
+$ProjectCurlWithCares = if ($Env:MY_PROJECT_CURL_WITH_CARES) {$Env:MY_PROJECT_CURL_WITH_CARES} else {'OFF'}
 $ProjectCurlWithDisabledApps = if ($Env:MY_PROJECT_CURL_WITH_DISABLED_APPS) {$Env:MY_PROJECT_CURL_WITH_DISABLED_APPS} else {'OFF'}
 $ProjectCurlWithLibSsh2 = if ($Env:MY_PROJECT_CURL_WITH_LIBSSH2) {$Env:MY_PROJECT_CURL_WITH_LIBSSH2} else {'OFF'}
 $ProjectCurlWithOpenSsl = if ($Env:MY_PROJECT_CURL_WITH_OPENSSL) {$Env:MY_PROJECT_CURL_WITH_OPENSSL} else {'OFF'}
+$ProjectCurlWithSharedCares = if ($Env:MY_PROJECT_CURL_WITH_SHARED_CARES) {$Env:MY_PROJECT_CURL_WITH_SHARED_CARES} else {'OFF'}
 $ProjectCurlWithSharedLibraries = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBRARIES} else {'OFF'}
 $ProjectCurlWithSharedLibSsh2 = if ($Env:MY_PROJECT_CURL_WITH_SHARED_LIBSSH2) {$Env:MY_PROJECT_CURL_WITH_SHARED_LIBSSH2} else {'OFF'}
 $ProjectCurlWithSharedZlib = if ($Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB) {$Env:MY_PROJECT_CURL_WITH_SHARED_ZLIB} else {'OFF'}
@@ -72,14 +76,26 @@ $MyCmakeCommonArgumentList = @(
         "-T $ProjectToolset",
         "-DMY_REVISION=$ProjectRevision"
 )
+if ('ON'.Equals($ProjectCaresWithDisabledApps)) {
+    $MyCmakeCommonArgumentList += "-DCARES_WITH_DISABLED_APPS=$ProjectCaresWithDisabledApps"
+}
+if ('ON'.Equals($ProjectCaresWithDisabledTestApps)) {
+    $MyCmakeCommonArgumentList += "-DCARES_WITH_DISABLED_TEST_APPS=$ProjectCaresWithDisabledTestApps"
+}
 if ('ON'.Equals($ProjectCurlWithDisabledApps)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_DISABLED_APPS=$ProjectCurlWithDisabledApps"
+}
+if ('ON'.Equals($ProjectCurlWithCares)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_CARES=$ProjectCurlWithCares"
 }
 if ('ON'.Equals($ProjectCurlWithLibSsh2)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_LIBSSH2=$ProjectCurlWithLibSsh2"
 }
 if ('ON'.Equals($ProjectCurlWithOpenSsl)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_OPENSSL=$ProjectCurlWithOpenSsl"
+}
+if ('ON'.Equals($ProjectCurlWithSharedCares)) {
+    $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_CARES=$ProjectCurlWithSharedCares"
 }
 if ('ON'.Equals($ProjectCurlWithSharedLibraries)) {
     $MyCmakeCommonArgumentList += "-DCURL_WITH_SHARED_LIBRARIES=$ProjectCurlWithSharedLibraries"
@@ -199,9 +215,13 @@ Write-Information "[PowerShell] Project information: CMake toolset: `"$ProjectTo
 Write-Information "[PowerShell] Project information: CMake platform to build: $MyCmakePlatformToBuildListString"
 Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 1.1.1: $ProjectWithOpenSSL111Preferred"
 Write-Information "[PowerShell] Project information: Preferred to use OpenSSL 3.0: $ProjectWithOpenSSL30Preferred"
+Write-Information "[PowerShell] Component information: c-ares with disabled apps: $ProjectCaresWithDisabledApps"
+Write-Information "[PowerShell] Component information: c-ares with disabled test apps: $ProjectCaresWithDisabledTestApps"
+Write-Information "[PowerShell] Component information: CURL with c-ares: $ProjectCurlWithCares"
 Write-Information "[PowerShell] Component information: CURL with disabled apps: $ProjectCurlWithDisabledApps"
-Write-Information "[PowerShell] Component information: CURL wuth libssh2: $ProjectCurlWithLibSsh2"
-Write-Information "[PowerShell] Component information: CURL wuth OpenSSL: $ProjectCurlWithOpenSsl"
+Write-Information "[PowerShell] Component information: CURL with libssh2: $ProjectCurlWithLibSsh2"
+Write-Information "[PowerShell] Component information: CURL with OpenSSL: $ProjectCurlWithOpenSsl"
+Write-Information "[PowerShell] Component information: CURL with shared c-ares: $ProjectCurlWithSharedCares"
 Write-Information "[PowerShell] Component information: CURL with shared libraries: $ProjectCurlWithSharedLibraries"
 Write-Information "[PowerShell] Component information: CURL with shared libssh2: $ProjectCurlWithSharedLibSsh2"
 Write-Information "[PowerShell] Component information: CURL with shared Zlib: $ProjectCurlWithSharedZlib"

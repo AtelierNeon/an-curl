@@ -298,7 +298,7 @@ session_nonblock(libssh2_socket_t sockfd,   /* operate on this */
         return fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
     else
         return fcntl(sockfd, F_SETFL, flags & (~O_NONBLOCK));
-#elif defined(HAVE_FIONBIO)
+#elif defined(HAVE_FIONBIO) && defined(HAVE_IOCTL_FIONBIO)
     /* older unix versions and VMS */
     int flags;
 

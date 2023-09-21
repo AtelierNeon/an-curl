@@ -65,6 +65,18 @@ int main(void)
 }"
       HAVE_FIONBIO)
 
+    check_c_source_compiles("/* FIONBIO & ioctl test (old-style unix) */
+#include <unistd.h>
+#include <stropts.h>
+
+int main(void)
+{
+    int socket = 0;
+    int flags = 0;
+    (void)ioctl(socket, FIONBIO, &flags);
+}"
+      HAVE_IOCTL_FIONBIO)
+
     if(NOT HAVE_FIONBIO)
       check_c_source_compiles("/* IoctlSocket test (Amiga?) */
 #include <sys/ioctl.h>

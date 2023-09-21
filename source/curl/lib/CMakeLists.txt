@@ -57,6 +57,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 if(USE_ARES)
   include_directories(${CARES_INCLUDE_DIR})
+  if(CARES_INCLUDE_DIRS)
+    include_directories(${CARES_INCLUDE_DIRS})
+  endif()
 endif()
 
 add_library(
@@ -73,6 +76,11 @@ if(NOT BUILD_SHARED_LIBS)
     set_target_properties(${LIB_NAME} PROPERTIES INTERFACE_COMPILE_DEFINITIONS CURL_STATICLIB)
 endif()
 
+if(USE_ARES)
+  if(CARES_LIBRARIES)
+    list(APPEND CURL_LIBS ${CARES_LIBRARIES})
+  endif()
+endif()
 target_link_libraries(${LIB_NAME} PRIVATE ${CURL_LIBS})
 
 transform_makefile_inc("Makefile.soname" "${CMAKE_CURRENT_BINARY_DIR}/Makefile.soname.cmake")

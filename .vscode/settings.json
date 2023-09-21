@@ -2,6 +2,8 @@
     "cmake.buildDirectory": "${workspaceFolder}/build/vscode",
     "cmake.sourceDirectory": "${workspaceFolder}",
     "cmake.configureSettings": {
+        "CARES_WITH_DISABLED_APPS": "ON",
+        "CARES_WITH_DISABLED_TEST_APPS": "ON",
         "CURL_WITH_DISABLED_APPS": "OFF",
         "CURL_WITH_LIBSSH2": "ON",
         "CURL_WITH_OPENSSL": "ON",

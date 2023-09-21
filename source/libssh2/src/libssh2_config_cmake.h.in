@@ -65,6 +65,7 @@
 /* Socket non-blocking support */
 #cmakedefine HAVE_O_NONBLOCK
 #cmakedefine HAVE_FIONBIO
+#cmakedefine HAVE_IOCTL_FIONBIO
 #cmakedefine HAVE_IOCTLSOCKET_CASE
 #cmakedefine HAVE_SO_NONBLOCK
 

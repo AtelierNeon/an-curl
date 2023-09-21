@@ -29,6 +29,7 @@ if (WIN32)
 endif ()
 
 ## Process sub-components
+add_subdirectory (source/c-ares)
 add_subdirectory (source/curl)
 add_subdirectory (source/libssh2)
 if (BUILD_WITH_OPENSSL_1_1_1_PREFERRED)

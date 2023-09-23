@@ -16,7 +16,8 @@ endif ()
 ## Use the checked version
 if (_OPENSSL_1_1_1_FOUND)
   message (STATUS "Sibling OpenSSL 1.1.1 found.")
-  set (OPENSSL_FOUND True)
+  set (OPENSSL_FOUND TRUE)
+  set (OPENSSL_1_1_1_FOUND TRUE)
   set (OPENSSL_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../openssl-1_1_1/include/"
     "${PROJECT_BINARY_DIR}/../openssl-1_1_1/include/")
@@ -27,7 +28,8 @@ if (_OPENSSL_1_1_1_FOUND)
     ${OPENSSL_SSL_LIBRARY})
 elseif (_OPENSSL_3_0_FOUND)
   message (STATUS "Sibling OpenSSL 3.0 found.")
-  set (OPENSSL_FOUND True)
+  set (OPENSSL_FOUND TRUE)
+  set (OPENSSL_3_0_FOUND TRUE)
   set (OPENSSL_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../openssl-3_0/include/"
     "${PROJECT_BINARY_DIR}/../openssl-3_0/include/")
@@ -38,7 +40,7 @@ elseif (_OPENSSL_3_0_FOUND)
     ${OPENSSL_SSL_LIBRARY})
 elseif (_OPENSSL_FOUND)
   message (STATUS "Sibling OpenSSL found.")
-  set (OPENSSL_FOUND True)
+  set (OPENSSL_FOUND TRUE)
   set (OPENSSL_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../openssl/include/"
     "${PROJECT_BINARY_DIR}/../openssl/include/")

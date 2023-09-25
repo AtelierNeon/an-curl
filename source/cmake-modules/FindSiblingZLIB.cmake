@@ -1,6 +1,6 @@
 if (EXISTS "${PROJECT_SOURCE_DIR}/../zlib/")
   message (STATUS "Sibling Zlib found.")
-  set (ZLIB_FOUND True)
+  set (ZLIB_FOUND TRUE)
   set (ZLIB_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../zlib/"
     "${PROJECT_BINARY_DIR}/../zlib/")

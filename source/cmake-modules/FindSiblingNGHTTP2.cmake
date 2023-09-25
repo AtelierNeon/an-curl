@@ -1,6 +1,6 @@
 if (EXISTS "${PROJECT_SOURCE_DIR}/../nghttp2/lib/includes/")
   message (STATUS "Sibling nghttp2 found.")
-  set (NGHTTP2_FOUND True)
+  set (NGHTTP2_FOUND TRUE)
   set (NGHTTP2_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../nghttp2/lib/includes/"
     "${PROJECT_BINARY_DIR}/../nghttp2/lib/includes/")

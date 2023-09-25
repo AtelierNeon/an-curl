@@ -1,6 +1,6 @@
 if (EXISTS "${PROJECT_SOURCE_DIR}/../c-ares/include/")
   message (STATUS "Sibling c-ares found.")
-  set (CARES_FOUND True)
+  set (CARES_FOUND TRUE)
   set (CARES_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/../c-ares/include/"
     "${PROJECT_BINARY_DIR}/../c-ares/")

@@ -28,7 +28,7 @@ project(nghttp2 VERSION 1.56.0)
 
 message (STATUS "nghttp2 version ${PROJECT_VERSION}")
 
-option (NGHTTP2_WITH_DISABLED_TEST_APPS "Build nghttp2 with disabled test apps." OFF)
+option (NGHTTP2_WITHOUT_TEST_APPS "Build nghttp2 without test apps." OFF)
 
 # See versioning rule:
 #  https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html

@@ -30,10 +30,10 @@ project( openssl
 cmake_minimum_required( VERSION 3.1.0...3.15.0 )
 
 option( OPENSSL_WITH_DEPRECATED_CIPHERS "Build OpenSSL with deprecated ciphers." OFF )
-option( OPENSSL_WITH_DISABLED_APPS "Build OpenSSL with disabled apps." OFF )
 option( OPENSSL_WITH_SHARED_LIBRARIES "Build shared version of the libcrypto/libssl libraries." OFF )
 option( OPENSSL_WITH_SHARED_ZLIB "Build OpenSSL with shared version of Zlib." OFF )
 option( OPENSSL_WITH_ZLIB "Build OpenSSL with Zlib." OFF )
+option( OPENSSL_WITHOUT_APPS "Build OpenSSL without apps." OFF )
 
 set( BUILD_SHARED_LIBS ${OPENSSL_WITH_SHARED_LIBRARIES} )
 
@@ -43,7 +43,7 @@ set( CMAKE_DISABLE_IN_SOURCE_BUILD ON )
 list( APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
 
 option( WITH_APPS "Build applications" ON )
-if( OPENSSL_WITH_DISABLED_APPS )
+if( OPENSSL_WITHOUT_APPS )
   set( WITH_APPS OFF )
 endif()
 

@@ -62,10 +62,10 @@ add_feature_info("Shared library" BUILD_SHARED_LIBS
   "creating libssh2 shared library (.so/.dll)")
 
 option(LIBSSH2_ENABLE_EXPORT_TARGET "to enable cmake export target" OFF)
-option(LIBSSH2_WITH_DISABLED_TEST_APPS "Build libssh2 with disabled test apps." OFF)
 option(LIBSSH2_WITH_SHARED_LIBRARIES "Build shared version of the libssh2 library." OFF)
 option(LIBSSH2_WITH_SHARED_ZLIB "Build libssh2 with shared version of Zlib." OFF)
 option(LIBSSH2_WITH_ZLIB "Build libssh2 with Zlib." OFF)
+option(LIBSSH2_WITHOUT_TEST_APPS "Build libssh2 without test apps." OFF)
 
 if(LIBSSH2_WITH_SHARED_LIBRARIES)
   set(BUILD_SHARED_LIBS ON)
@@ -133,7 +133,7 @@ endif()
 
 option(BUILD_EXAMPLES "Build libssh2 examples" ON)
 option(BUILD_TESTING "Build libssh2 test suite" ON)
-if(LIBSSH2_WITH_DISABLED_TEST_APPS)
+if(LIBSSH2_WITHOUT_TEST_APPS)
   set(BUILD_EXAMPLES OFF)
   set(BUILD_TESTING OFF)
 endif()

@@ -4,7 +4,9 @@
     "cmake.configureSettings": {
         "CARES_WITHOUT_APPS": "ON",
         "CARES_WITHOUT_TEST_APPS": "ON",
+        "CURL_WITH_CARES": "ON",
         "CURL_WITH_LIBSSH2": "ON",
+        "CURL_WITH_NGHTTP2": "ON",
         "CURL_WITH_OPENSSL": "ON",
         "CURL_WITH_ZLIB": "ON",
         "CURL_WITHOUT_APPS": "OFF",

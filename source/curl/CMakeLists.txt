@@ -377,7 +377,6 @@ endif()
 # check SSL libraries
 # TODO support GnuTLS
 option(CURL_ENABLE_SSL "Enable SSL support" ON)
-option(CURL_WITH_DISABLED_APPS "Build CURL with disabled apps." OFF)
 option(CURL_WITH_LIBSSH2 "Build CURL with libssh2." OFF)
 option(CURL_WITH_NGHTTP2 "Build CURL with nghttp2." OFF)
 option(CURL_WITH_OPENSSL "Build CURL with OpenSSL." OFF)
@@ -386,8 +385,9 @@ option(CURL_WITH_SHARED_LIBSSH2 "Build CURL with shared version of libssh2." OFF
 option(CURL_WITH_SHARED_NGHTTP2 "Build CURL with shared version of nghttp2." OFF)
 option(CURL_WITH_SHARED_ZLIB "Build CURL with shared version of Zlib." OFF)
 option(CURL_WITH_ZLIB "Build CURL with Zlib." OFF)
+option(CURL_WITHOUT_APPS "Build CURL without apps." OFF)
 
-if(CURL_WITH_DISABLED_APPS)
+if(CURL_WITHOUT_APPS)
   set(BUILD_CURL_EXE OFF)
 endif()
 if(CURL_WITH_SHARED_LIBRARIES)
